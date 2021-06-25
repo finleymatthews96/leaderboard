@@ -1,7 +1,7 @@
 {
-  "name": "fs-app-template",
+  "name": "stackathon",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "Redis leaderboard",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
@@ -15,9 +15,10 @@
     "test": "NODE_ENV=test JWT=a_secret mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" --require @babel/register --require esm ",
     "test:dev": "npm run test -- --watch",
     "test:dev:models": "npm run test:dev -- --grep=model",
-    "test:dev:routes": "npm run test:dev -- --grep=route"
+    "test:dev:routes": "npm run test:dev -- --grep=route",
+    "seed:to:redis": "redis-cli ZADD users 5 cody 6 murphy 7 john 8 kevin"
   },
-  "author": "Fullstack Academy of Code",
+  "author": "Finley Matthews",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
@@ -28,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "pg": "^8.5.1",
+    "redis": "^3.1.2",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
