@@ -17,6 +17,11 @@ async function seed() {
 
   // Creating Users
 
+  await Promise.all([
+    User.create({ username: "cody", password: "123" }),
+    User.create({ username: "murphy", password: "123" }),
+  ]);
+
   users.forEach((user) => {
     client.zadd(
       ["userLeaderboard", `${user.score}`, `${user.username}`],
