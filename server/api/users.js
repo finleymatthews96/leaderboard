@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
 
     client.zrevrange(args, function (err, result) {
       if (err) {
-        console.log("error in get /api/users:", err);
+        console.log("error in get /api/users", err);
       } else {
         const lists = _.groupBy(result, function (a, b) {
           return Math.floor(b / 2);
@@ -49,13 +49,31 @@ router.post("/", async (req, res, next) => {
 
     client.zadd(args, async (err, result) => {
       if (err) {
-        console.log("error in post /api/users:", err);
+        console.log("error in post /api/users", err);
       } else {
         const newArgs = ["userLeaderboard", username];
         client.zrevrank(newArgs, (err, result) => {
-          if (err) console.log("error in post /api/users:", err);
+          if (err) console.log("error in post /api/users", err);
           else res.json(result);
         });
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:username", async (req, res, next) => {
+  try {
+    const { difference } = req.body;
+    const args = ["userLeaderboard", difference, req.params.username];
+
+    client.zincrby(args, (err, result) => {
+      if (err) {
+        console.log("error in put /api/users/:username", err);
+      } else {
+        // result will be the updated score of the user
+        res.send(result);
       }
     });
   } catch (error) {
