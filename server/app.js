@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const redis = require("redis");
+const bodyParser = require("body-parser");
 
 let client = redis.createClient();
 client.on("connect", function () {
@@ -16,6 +17,8 @@ app.use(morgan("dev"));
 
 // body parsing middleware
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // auth and api routes
 app.use("/auth", require("./auth"));
