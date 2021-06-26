@@ -24,3 +24,19 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+router.get("/:username", async (req, res, next) => {
+  try {
+    const args = ["userLeaderboard", req.params.username];
+
+    client.zrevrank(args, (err, result) => {
+      if (!result || err) {
+        res.status(404).send("oh no! that user does not exist");
+      } else {
+        res.json(result + 1);
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
